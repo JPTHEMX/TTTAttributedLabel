@@ -1,157 +1,95 @@
-# TTTAttributedLabel
+1 - Business Results
+In 2025, my focus has been on delivery velocity, architectural modernization, and proactive tech debt reduction, aligning with the "Promote code improvements" goal.
 
-[![Circle CI](https://circleci.com/gh/TTTAttributedLabel/TTTAttributedLabel.svg?style=svg)](https://circleci.com/gh/TTTAttributedLabel/TTTAttributedLabel) [![Version Status](https://img.shields.io/cocoapods/v/TTTAttributedLabel.svg)](https://cocoapods.org/pods/TTTAttributedLabel) [![codecov](https://codecov.io/gh/TTTAttributedLabel/TTTAttributedLabel/branch/master/graph/badge.svg)](https://codecov.io/gh/TTTAttributedLabel/TTTAttributedLabel) [![license MIT](https://img.shields.io/cocoapods/l/TTTAttributedLabel.svg)](http://opensource.org/licenses/MIT) [![Platform](https://img.shields.io/cocoapods/p/TTTAttributedLabel.svg)](http://cocoadocs.org/docsets/TTTAttributedLabel/)  [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+High Performance and Efficiency: I have consistently exceeded the team average by managing a volume of 20+ points per sprint. I regularly take on additional work (3-5 tickets) mid-sprint to respond to critical business needs, completing 100% of committed work with no carryover.
+
+Time-to-Market Acceleration: I demonstrated radical refactoring efficiency on the Carousel Hub. I corrected code quality issues and errors from a previous implementation, delivering a robust and stable solution in just 2-3 weeks and drastically improving maintainability.
+
+Architectural Modernization (ListView, Hub, Thematic, Wallet): I led the refactoring of key components (ListView, Hub, Thematic, Wallet), migrating from UICollectionViewFlowLayout to UICollectionViewCompositionalLayout and implementing UICollectionViewDiffableDataSource. This eliminated obsolete and error-prone code, establishing a clean and scalable codebase that reduces long-term maintenance costs.
+
+Architectural Modernization (Global): I executed a strategic refactor of the DataManager across all our main components (Entry, Hub, Wallet, Shopping Hub, Activation Page, etc.). I centralized error-handling logic, removed redundant code, and began adopting async/await and Strict Concurrency, improving the stability and security of our data layer.
+
+Resource Optimization: I centralized the loading logic for assets (Logo, Hero, Card Art) to eliminate duplicate and in-progress network requests. This reduces network costs and improves application efficiency.
+
+Multitasking and Focus: During the ListView and Hub refactor and the Dynamic Font implementation, I maintained my regular workload, simultaneously resolving 6-8 sprint tickets in addition to the modernization work.
+
+2 - Client / Customer / Stakeholder
+I have directly improved the end-user experience by optimizing perceived performance and accessibility.
+
+Drastic Performance Improvement (ListView): The ListView refactor transformed a poor user experience (slow scroll, flickering) into a fluid, high-performance navigation. This was achieved by eliminating manual size calculations and the inefficient caching of NSAttributedString and views (cells, headers).
+
+Extreme Load Optimization (Wallet): The Wallet refactor (adopting UITableViewDiffableDataSource) eliminated hundreds of unnecessary network requests (100-200) that were firing for non-visible cells. The result is a dramatically faster load and response time for the customer.
+
+Instant UI Response: The implementation of DiffableDataSource across all modules (ListView, Hub, Carousel, Shopping Hub, Thematic, Wallet, etc.) allows for instant updates (like activating offers) without reloading the entire view, improving perceived fluidity.
+
+User Experience Enhancement: I implemented UI Prefetching in all key components (Entry, Hub, Wallet, etc.) to proactively load data. We now have more control over tasks that are in-progress or should be canceled, avoiding hundreds of unnecessary requests.
+
+Accessibility (Dynamic Font): I led the Dynamic Font implementation, reviewing and refactoring multiple views to ensure reusability and correct constraints, making the application more accessible and inclusive.
+
+Stakeholder Enablement (QA/Devs): I fixed a critical bug in the Wallet that caused constant crashes in the Xcode Debug View Hierarchy. This fix unblocked the Development and QA teams, allowing them to validate and debug the UI efficiently.
+
+3 - Teamwork and Leadership
+I have actively responded to feedback from 2023 and 2024 to take more initiative in mentoring, architecture, and team leadership, aligning with my 2025 goals of "Mentoring junior team members" and "Taking on next-level responsibilities".
+
+Mentorship and Force Multiplier: I act as a technical pillar and mentor (2023 & 2024 feedback), proactively guiding my colleagues through complex architectures and providing clear solutions that unblock them, fulfilling my 2025 goal.
+
+Initiative and Ownership: I have taken the initiative (2023 feedback) to identify and create numerous tech debt tickets, actively "promoting code improvements". I quickly resolve priority "blockers" (like crashes) to ensure sprint continuity.
+
+Architectural Leadership and System-Wide Vision: Responding to feedback (2023 & 2024) to be "more involved in... architecture... design decisions," my understanding now extends end-to-end, enabling me to identify and resolve critical issues outside of my immediate component's scope. This was demonstrated in the global DataManager refactors and asset centralization, creating reusable components that simplify my colleagues' work and align our code with internal best practices.
+
+Taking on Next-Level Responsibilities: My leadership in these modernization initiatives (Compositional Layouts, DiffableDataSource, Concurrency, SwiftUI) demonstrates my capacity to take on a "next-level... scope" (2023 feedback).
+
+Future Focus: I am prepared for the "transitioning to SwiftUI" (2024 feedback) by modernizing our UIKit architectures. Additionally, I am progressing on my goal to obtain the AWS Developer Associate certification to strengthen our full-stack collaboration capabilities.
 
 
-**A drop-in replacement for `UILabel` that supports attributes, data detectors, links, and more**
 
-`TTTAttributedLabel` is a drop-in replacement for `UILabel` providing a simple way to performantly render [attributed strings](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSAttributedString_Class/Reference/Reference.html). As a bonus, it also supports link embedding, both automatically with `NSTextCheckingTypes` and manually by specifying a range for a URL, address, phone number, event, or transit information.
 
-Even though `UILabel` received support for `NSAttributedString` in iOS 6, `TTTAttributedLabel` has several unique features:
+////-----------------------
 
-- Automatic data detection
-- Manual link embedding
-- Label style inheritance for attributed strings
-- Custom styling for links within the label
-- Long-press gestures in addition to tap gestures for links
 
-It also includes advanced paragraph style properties:
 
-- `attributedTruncationToken`
-- `firstLineIndent`
-- `highlightedShadowRadius`
-- `highlightedShadowOffset`
-- `highlightedShadowColor`
-- `lineHeightMultiple`
-- `lineSpacing`
-- `minimumLineHeight`
-- `maximumLineHeight`
-- `shadowRadius`
-- `textInsets`
-- `verticalAlignment`
+Proposed Performance Goals (for 2026)
+1. Lead Team Technical Upskilling and Productivity
 
-## Requirements
 
-- iOS 8+ / tvOS 9+
-- Xcode 7+
+Goal Description: To formalize my mentorship role (a 2025 goal ) and become a force multiplier for the team. I will lead architecture review sessions, proactively document best practices based on my refactors (DiffableDataSource, CompositionalLayouts), and act as the primary point of contact for unblocking junior members on complex technical challenges.
 
-### Accessibility
+Why it's a High-Impact Goal:
 
-As of version 1.10.0, `TTTAttributedLabel` supports VoiceOver through the  `UIAccessibilityElement` protocol. Each link can be individually selected, with an `accessibilityLabel` equal to its string value, and a corresponding `accessibilityValue` for URL, phone number, and date links.  Developers who wish to change this behavior or provide custom values should create a subclass and override `accessibilityElements`.
+It directly addresses manager feedback from 2023 ("mentoring newer team members," "documentation," "training materials" ) and 2024 ("mentoring junior team members" ).
 
-## Communication
 
-- If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/tttattributedlabel). (Tag `tttattributedlabel`)
-- If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/tttattributedlabel).
-- If you **found a bug**, open an issue.
-- If you **have a feature request**, open an issue.
-- If you **want to contribute**, submit a pull request.
+This shifts the perception from "Juan solves problems fast" to "Juan makes the entire team solve problems faster." It demonstrates leadership and "next-level responsibilities".
 
-## Installation
+2. Take Ownership of the Architectural Modernization Roadmap
 
-[CocoaPods](https://cocoapods.org/) is the recommended method of installing `TTTAttributedLabel`. Simply add the following line to your `Podfile`:
 
-```ruby
-# Podfile
+Goal Description: To move beyond "Promote code improvements"  and take proactive ownership of our architecture. I will define and document the modernization roadmap for our components, including the migration strategy from UIKit to SwiftUI (a 2025 goal ). This involves designing new components before development begins and ensuring every new feature aligns with this modern architecture.
 
-pod 'TTTAttributedLabel'
-```
+Why it's a High-Impact Goal:
 
-## Usage
+It directly addresses manager feedback from 2023 ("being more involved in making and documenting more architecture and (system) design decisions" ) and 2024 ("new architecture designs... transitioning to SwiftUI" ).
 
-`TTTAttributedLabel` can display both plain and attributed text: just pass an `NSString` or `NSAttributedString` to the `setText:` setter. Never assign to the `attributedText` property.
 
-```objc
-// NSAttributedString
+This positions me not as someone who just fixes low-quality code (like the Carousel Hub), but as the architect who prevents it from being written in the first place.
 
-TTTAttributedLabel *attributedLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+3. Lead the Adoption of Strategic Technologies (Swift Concurrency & SwiftUI)
 
-NSAttributedString *attString = [[NSAttributedString alloc] initWithString:@"Tom Bombadil"
-                                                                attributes:@{
-        (id)kCTForegroundColorAttributeName : (id)[UIColor redColor].CGColor,
-        NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
-        NSKernAttributeName : [NSNull null],
-        (id)kTTTBackgroundFillColorAttributeName : (id)[UIColor greenColor].CGColor
-}];
+Goal Description: To become the Subject Matter Expert (SME) and lead the implementation of key Swift technologies. This includes (1) Leading the complete refactor of our networking and DataManager layers to adopt async/await and Strict Concurrency, and (2) Delivering the first production component or large-scale prototype built 100% in SwiftUI (a 2025 goal ).
 
-// The attributed string is directly set, without inheriting any other text
-// properties of the label.
-attributedLabel.text = attString;
-```
+Why it's a High-Impact Goal:
 
-```objc
-// NSString
+It combines the 2025 goals of "SwiftUI" and "Promote code improvements"  into a single, clear leadership initiative.
 
-TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-label.font = [UIFont systemFontOfSize:14];
-label.textColor = [UIColor darkGrayColor];
-label.lineBreakMode = NSLineBreakByWordWrapping;
-label.numberOfLines = 0;
+It demonstrates alignment with industry and company priorities (mentioned in 2024 feedback ).
 
-// If you're using a simple `NSString` for your text,
-// assign to the `text` property last so it can inherit other label properties.
-NSString *text = @"Lorem ipsum dolor sit amet";
-[label setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
-  NSRange boldRange = [[mutableAttributedString string] rangeOfString:@"ipsum dolor" options:NSCaseInsensitiveSearch];
-  NSRange strikeRange = [[mutableAttributedString string] rangeOfString:@"sit amet" options:NSCaseInsensitiveSearch];
+4. Expand Full-Stack Impact by Optimizing Client-Server Collaboration
 
-  // Core Text APIs use C functions without a direct bridge to UIFont. See Apple's "Core Text Programming Guide" to learn how to configure string attributes.
-  UIFont *boldSystemFont = [UIFont boldSystemFontOfSize:14];
-  CTFontRef font = CTFontCreateWithName((__bridge CFStringRef)boldSystemFont.fontName, boldSystemFont.pointSize, NULL);
-  if (font) {
-    [mutableAttributedString addAttribute:(NSString *)kCTFontAttributeName value:(__bridge id)font range:boldRange];
-    [mutableAttributedString addAttribute:kTTTStrikeOutAttributeName value:@YES range:strikeRange];
-    CFRelease(font);
-  }
 
-  return mutableAttributedString;
-}];
-```
+Goal Description: To use the knowledge gained from the "AWS Developer Associate" certification (a 2025 goal ) to expand my impact beyond iOS. I will actively collaborate with the backend team to co-design at least two new APIs, focusing on optimizing data payloads and reducing overall system latency, based on my findings from the DataManager and Wallet network optimizations.
 
-First, we create and configure the label, the same way you would instantiate `UILabel`. Any text properties that are set on the label are inherited as the base attributes when using the `-setText:afterInheritingLabelAttributesAndConfiguringWithBlock:` method. In this example, the substring "ipsum dolar", would appear in bold, such that the label would read "Lorem **ipsum dolar** sit amet", in size 14 Helvetica, with a dark gray color.
+Why it's a High-Impact Goal:
 
-## `IBDesignable`
+It gives a tangible business purpose to the AWS certification goal.
 
-`TTTAttributedLabel` includes `IBInspectable` and `IB_DESIGNABLE` annotations to enable configuring the label inside Interface Builder. However, if you see these warnings when building...
-
-```
-IB Designables: Failed to update auto layout status: Failed to load designables from path (null)
-IB Designables: Failed to render instance of TTTAttributedLabel: Failed to load designables from path (null)
-```
-
-...then you are likely using `TTTAttributedLabel` as a static library, which does not support IB annotations. Some workarounds include:
-
-- Install `TTTAttributedLabel` as a dynamic framework using CocoaPods with `use_frameworks!` in your `Podfile`, or with Carthage
-- Install `TTTAttributedLabel` by dragging its source files to your project
-
-### Links and Data Detection
-
-In addition to supporting rich text, `TTTAttributedLabel` can automatically detect links for dates, addresses, URLs, phone numbers, transit information, and allows you to embed your own links.
-
-``` objective-c
-label.enabledTextCheckingTypes = NSTextCheckingTypeLink; // Automatically detect links when the label text is subsequently changed
-label.delegate = self; // Delegate methods are called when the user taps on a link (see `TTTAttributedLabelDelegate` protocol)
-
-label.text = @"Fork me on GitHub! (https://github.com/mattt/TTTAttributedLabel/)"; // Repository URL will be automatically detected and linked
-
-NSRange range = [label.text rangeOfString:@"me"];
-[label addLinkToURL:[NSURL URLWithString:@"http://github.com/mattt/"] withRange:range]; // Embedding a custom link in a substring
-```
-
-## Demo
-
-```bash
-pod try TTTAttributedLabel
-```
-
-...or clone this repo and build and run/test the `Espressos` project in Xcode to see `TTTAttributedLabel` in action. If you don't have [CocoaPods](http://cocoapods.org) installed, grab it with `[sudo] gem install cocoapods`.
-
-```bash
-cd Example
-pod install
-open Espressos.xcworkspace
-```
-
-## License
-
-`TTTAttributedLabel` is available under the MIT license. See the LICENSE file for more info.
+It demonstrates full system-design thinking ("system design" ) instead of a siloed (iOS-only) view, proving readiness for a "next-level... scope".
