@@ -131,8 +131,11 @@ class CustomButtonControl: UIControl {
             return
         }
         
+        // --- CAMBIO AQUÍ: Corrección para respetar la fuente existente ---
+        let existingFont = bottomLabel.font ?? UIFont.preferredFont(forTextStyle: .caption2)
+        
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.preferredFont(forTextStyle: .caption2),
+            .font: existingFont,
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .underlineColor: UIColor.label,
         ]
@@ -162,8 +165,50 @@ class CustomButtonControl: UIControl {
     }
 }
 
-class ViewController: UIViewController {
 
+
+
+
+
+
+
+import UIKit
+
+class EmptyCell: UICollectionViewCell {
+    
+    static let reuseIdentifier = "EmptyCell"
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.backgroundColor = .systemGray6
+        contentView.layer.cornerRadius = 8
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
+
+
+
+
+
+
+import UIKit
+
+enum ExperienceType {
+    case `default`
+    case shopping
+}
+
+class ContentCell: UICollectionViewCell {
+    
+    static let reuseIdentifier = "ContentCell"
+    
+    // MARK: - UI Components
+    
     lazy var titleLabel: UILabel = {
             let label = UILabel()
             label.text = "Title"
@@ -225,47 +270,133 @@ class ViewController: UIViewController {
         return stack
     }()
     
-    var firstSeparator: UIView?
+    // --- Vistas condicionales (Cambiadas a lazy var) ---
+    lazy var firstSeparator: UIView = self.createSeparator()
+    
+    private lazy var secondSeparator: UIView = self.createSeparator()
+    
+    private lazy var button1: CustomButtonControl = {
+        let button = self.createDualLabelButton(topText: "100", bottomText: "Title Label One")
+        button.addTarget(self, action: #selector(self.buttonTapped(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var button2: CustomButtonControl = {
+        let button = self.createDualLabelButton(topText: "200", bottomText: "Title Label Two")
+        button.addTarget(self, action: #selector(self.buttonTapped(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var button3: CustomButtonControl = {
+        let button = self.createImageButton(image: UIImage(systemName: "photo"), bottomText: "Title Label Three")
+        button.addTarget(self, action: #selector(self.buttonTapped(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var button4: CustomButtonControl = {
+        let button = self.createImageButton(image: UIImage(systemName: "star"), bottomText: "Button Four")
+        button.addTarget(self, action: #selector(self.buttonTapped(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var button5: CustomButtonControl = {
+        let button = self.createImageButton(image: UIImage(systemName: "heart"), bottomText: "Button Five")
+        button.addTarget(self, action: #selector(self.buttonTapped(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var spacerView: UIView = UIView()
+    
+    private lazy var button1WidthConstraint: NSLayoutConstraint = {
+        return self.button1.widthAnchor.constraint(equalTo: self.button2.widthAnchor)
+    }()
+    
+    private lazy var buttonWidthConstraint: NSLayoutConstraint = {
+        return self.button2.widthAnchor.constraint(equalTo: self.button3.widthAnchor)
+    }()
+    
+    private var currentType: ExperienceType = .shopping // Estado para layout
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+    // MARK: - Initialization
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupLayout()
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
+    // MARK: - Setup (Refactorizado para usar lazy vars)
+    
     func setupLayout() {
         
-        let button1 = createDualLabelButton(topText: "100", bottomText: "Title Label One")
-        let button2 = createDualLabelButton(topText: "200", bottomText: "Title Label Two")
-        let button3 = createImageButton(image: UIImage(systemName: "photo"), bottomText: "Title Label Three")
-        
-        button1.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        button2.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        button3.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        
-        firstSeparator = createSeparator()
-        buttonStackView.addArrangedSubview(firstSeparator!)
+        // --- Añadir todas las vistas al stack en orden ---
+        // Al acceder a ellas, se inicializan las lazy vars
+        buttonStackView.addArrangedSubview(spacerView)
+        buttonStackView.addArrangedSubview(button5)
+        buttonStackView.addArrangedSubview(button4)
+        buttonStackView.addArrangedSubview(firstSeparator)
         buttonStackView.addArrangedSubview(button1)
         buttonStackView.addArrangedSubview(button2)
-        buttonStackView.addArrangedSubview(createSeparator())
+        buttonStackView.addArrangedSubview(secondSeparator)
         buttonStackView.addArrangedSubview(button3)
         
+        // --- Configurar constraints ---
+        // Acceder a la lazy var la activa
         NSLayoutConstraint.activate([
-            button1.widthAnchor.constraint(equalTo: button2.widthAnchor),
-            button2.widthAnchor.constraint(equalTo: button3.widthAnchor)
+            button1WidthConstraint
         ])
     
         
-        view.addSubview(mainStackView)
+        contentView.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
+    }
+    
+    // --- FUNCIÓN (Sin cambios, pero ahora accede a lazy vars) ---
+    func configure(type: ExperienceType, isElegible: Bool) {
+        self.currentType = type // Guardar estado
+        
+        switch type {
+        case .shopping:
+            firstSeparator.isHidden = false
+            button1.isHidden = false
+            button2.isHidden = false
+            
+            secondSeparator.isHidden = !isElegible
+            button3.isHidden = !isElegible
+            
+            buttonWidthConstraint.isActive = isElegible
+            
+            spacerView.isHidden = true
+            button4.isHidden = true
+            button5.isHidden = true
+            
+        case .default:
+            firstSeparator.isHidden = true
+            button1.isHidden = true
+            button2.isHidden = true
+            secondSeparator.isHidden = true
+            button3.isHidden = true
+            
+            spacerView.isHidden = false
+            button4.isHidden = false
+            button5.isHidden = false
+            
+            buttonWidthConstraint.isActive = false
+        }
         
         updateMainStackLayout()
     }
+    
+    // MARK: - Helpers
     
     func createDualLabelButton(topText: String, bottomText: String) -> CustomButtonControl {
         let button = CustomButtonControl(type: .dualLabel)
@@ -295,6 +426,8 @@ class ViewController: UIViewController {
         print("Button tapped: \(sender.accessibilityLabel ?? "Unknown")")
     }
     
+    // MARK: - Layout Updates
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -308,29 +441,191 @@ class ViewController: UIViewController {
     func updateMainStackLayout() {
         let isIPhone = UIDevice.current.userInterfaceIdiom == .phone
         
-        let windowScene = view.window?.windowScene
+        let windowScene = self.window?.windowScene
         let isPortrait = windowScene?.interfaceOrientation.isPortrait ?? true
         
         let hasAccessibilityText = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
         
-        let isLargeText = isIPhone && isPortrait && hasAccessibilityText
+        let isLargeText = isIPhone && isPortrait && hasAccessibilityText && currentType == .shopping
         
         if isLargeText {
             mainStackView.axis = .vertical
             mainStackView.alignment = .fill
-            firstSeparator?.isHidden = true
+            
+            // Ocultar separador (solo si es tipo 'shopping')
+            if currentType == .shopping {
+                firstSeparator.isHidden = true
+            }
+            
         } else {
             mainStackView.axis = .horizontal
             mainStackView.alignment = .center
-            firstSeparator?.isHidden = false
+            
+            // Mostrar separador (solo si es tipo 'shopping')
+            if currentType == .shopping {
+                firstSeparator.isHidden = false
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    private var collectionView: UICollectionView!
+    
+    // Enum añadido aquí también para que el VC lo conozca
+    private enum Section: Int, CaseIterable {
+        case contentCell
+        case emptyCells
+    }
+    
+    // El enum de tu lógica
+    private enum ExperienceType {
+        case `default`
+        case shopping
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        setupCollectionView()
+    }
+    
+    private func setupCollectionView() {
+        let layout = createLayout()
+        
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.dataSource = self
+        
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
+        collectionView.register(ContentCell.self, forCellWithReuseIdentifier: ContentCell.reuseIdentifier)
+        
+        view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
+            
+            if sectionKind == .emptyCells {
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: .absolute(100),
+                    heightDimension: .absolute(100)
+                )
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(100)
+                )
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                group.interItemSpacing = .fixed(10)
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 10
+                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+                return section
+                
+            } else if sectionKind == .contentCell {
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .estimated(100)
+                )
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .estimated(100)
+                )
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0)
+                return section
+            }
+            
+            return nil
+        }
+        
+        return layout
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension ViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return Section.allCases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let sectionKind = Section(rawValue: section) else { return 0 }
+        
+        switch sectionKind {
+        case .emptyCells:
+            return 30 // Respetando el 30 de tu código
+        case .contentCell:
+            return 1
         }
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let sectionKind = Section(rawValue: indexPath.section) else {
+            fatalError("Unknown section")
+        }
         
-        coordinator.animate(alongsideTransition: { _ in
-            self.updateMainStackLayout()
-        })
+        switch sectionKind {
+        case .emptyCells:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: EmptyCell.reuseIdentifier,
+                for: indexPath
+            ) as? EmptyCell else {
+                fatalError("Could not dequeue EmptyCell")
+            }
+            return cell
+            
+        case .contentCell:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ContentCell.reuseIdentifier,
+                for: indexPath
+            ) as? ContentCell else {
+                fatalError("Could not dequeue ContentCell")
+            }
+            
+            // --- CAMBIO AQUÍ: Llamada a la nueva función ---
+            
+            // Para probar 'default' (solo muestra button4):
+            // cell.configure(type: .default, isElegible: false)
+            
+            // Para probar 'shopping' sin button3 (elegible: false):
+            cell.configure(type: .default, isElegible: true)
+            
+            // Para probar 'shopping' con button3 (elegible: true):
+            // cell.configure(type: .shopping, isElegible: true)
+            
+            return cell
+        }
     }
 }
+
+
+
+
