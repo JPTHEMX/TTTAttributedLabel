@@ -1,43 +1,39 @@
-Code Cleanup
-Dead Code and Legacy Code
+Performance Improvements
+1. Lazy Loading of Tabs
 
-The ViewModel contains dead code and legacy code that is not being used in the current application flow, unnecessarily increasing the binary size and hindering maintainability.
+Currently, the ViewModel's fetch method eagerly loads all tabs during initialization. When the app has 8 tabs and each loads 1 to N items, we're loading all data into memory at launch, even though the user only sees the first tab:
 
-Unnecessary Initialization
+By loading data on-demand (only when a tab is selected), we achieve:
 
-The ViewModel forces initialization of properties and dependencies that are not used, violating the Single Responsibility Principle (SRP) and generating unnecessary memory overhead.
-Initializers require parameters that are not consumed, increasing the complexity of dependency injection and hindering testability.
-
-Unused Parameters
-
-Methods exist with unused parameters, which generates compiler warnings and reduces the clarity of the function contract.
-
-Single Responsibility Principle (SRP) Violation
-
-Some classes have multiple responsibilities (God Objects), violating SOLID principles. This results in:
-
-Low cohesion
-High coupling
-Difficulty in unit testing
-Code that is hard to maintain and extend
+Instant initial load: First tab renders immediately
+Reduced memory footprint: Only active tab data in memory
+Better UX: No blocking operations on app launch
 
 
 
-Inconsistency in ViewController Hierarchy
-
-BaseViewController is not being used consistently across the application. For example, SearchViewController and other VCs don't inherit from BaseViewController, causing:
-
-Duplication of common code (UI setup, lifecycle methods, etc.)
-Inconsistency in UI behavior
-Loss of shared functionality
-Difficulty applying global changes to all ViewControllers
 
 
+2. Pagination (Infinite Scrolling)
 
-Code Duplication (DRY Violation)
+Loading 300+ items in a single section (.grid, .list) remains expensive, even with lazy tab loading. The DiffableDataSource must calculate diffs for all items
 
-Duplicated code has been identified, violating the DRY (Don't Repeat Yourself) principle, which generates:
+Implementing pagination with a page size of 30 items provides:
 
-Inconsistencies when making changes
-Larger bug surface area
-Difficulty refactoring
+Reduced initial load time: Only first page renders immediately
+Lower memory pressure: Items loaded incrementally
+Better diff performance: Smaller snapshots = faster diff calculations
+Smoother scrolling: Fewer cells to manage at once
+Enables async image loading: Images loaded as cells become visible
+
+
+
+
+
+3. Async Image Loading (Supporting Optimization)
+
+Pagination enables efficient async image loading because:
+
+Only visible cells need images loaded immediately
+Images can be fetched on-demand as cells appear
+Reduces initial network bandwidth consumption
+Allows progressive image rendering
