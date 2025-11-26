@@ -1,5 +1,1 @@
-I’ve confirmed that the swizzling implementation is unrelated to this bug.
-
-I paired with Paul to test it, and the behavior seems random/intermittent. It works fine on the first login, but fails on subsequent logins.
-
-The root cause: We are calling reloadData, but it happens while the carousel is not currently visible on screen. That's why the update isn't reflected until the user scrolls and forces a redraw. I'm working on a fix for this timing issue."
+I need a bit more time to ensure the solution is robust/adequate. However, I’m currently testing a potential fix that involves just a few lines of code. Could you give me about 30 minutes? I will get back to you then to confirm if it worked.
