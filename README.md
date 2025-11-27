@@ -1,3 +1,7 @@
-RCA (Root Cause Analysis): The issue occurred because the UICollectionView reloadData() method was called while the parent UITableView was not currently visible in the view hierarchy. In this state, UIKit defers layout passes to optimize performance. As a result, the collection view's layout attributes were not recalculated immediately, causing the UI to display stale data until a user interaction (scrolling) forced a new layout cycle.
+Hey [Name], I know the Task { @MainActor ... DispatchQueue.main.async } combo looks a bit redundant, but here is why we need both:
 
-Fix: Wrapped the update logic within DispatchQueue.main.async to ensure it runs on the next run loop tick on the Main Thread. Additionally, explicitly called layoutIfNeeded() immediately after reloadData(). This forces the layout engine to recalculate the geometry and apply updates instantly, ensuring the cells are rendered correctly even if the view is initially off-screen.
+Task { @MainActor }: Ensures we switch from the background thread (where the fetch happened) to the Main Thread safely.
+
+DispatchQueue.main.async: This is the trick. It doesn't just run it on the main thread; it queues it at the end of the current RunLoop.
+
+Why it fixes it: By moving the reloadData to the end of the current execution line, we let UIKit finish any pending layout or setup operations first. If we don't do this, reloadData might be called while the view is still initializing or in a 'dirty' state, causing the update to be ignored."
