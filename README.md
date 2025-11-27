@@ -1,11 +1,7 @@
-Here is a natural, professional translation you can use in a Code Review or Slack message:
+While both ensure execution on the Main Thread, they behave differently regarding the RunLoop execution order:
 
-"I totally understand the temptation. Using DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) is often the go-to 'quick fix' when it feels like the UI isn't ready to receive data yet.
+Task { @MainActor }: Swift Concurrency is cooperative. If we are already on the Main Actor context, the runtime might execute the code immediately or schedule it as a high-priority job within the current cycle. This creates a race condition where reloadData runs before the TableView has finished its layout calculations.
 
-However, I strongly advise against using fixed delays for two reasons:
+DispatchQueue.main.async: This explicitly enqueues the block at the end of the Main Thread's current serial queue. It forces a context switch to the next RunLoop iteration.
 
-It’s unpredictable: On an iPhone 14 Pro, 0.1 seconds is an eternity; but on an older iPhone XR with low battery, 0.5 seconds might not be enough.
-
-User Experience: If the user navigates quickly, they will see the content 'pop in' (jump) exactly when the timer fires, which looks glitchy.
-
-The correct solution isn't to wait for a specific amount of time, but rather to wait for the next drawing cycle (RunLoop)."
+Conclusion: We are not using async for thread safety (MainActor does that). We are using it for deferral—to guarantee the UI layout pass has completed before we inject the data."
