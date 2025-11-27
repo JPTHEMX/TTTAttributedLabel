@@ -1,7 +1,11 @@
-Hey [Name], I know the Task { @MainActor ... DispatchQueue.main.async } combo looks a bit redundant, but here is why we need both:
+"The reason we need the RunLoop via DispatchQueue.main.async is to handle The Update Cycle.
 
-Task { @MainActor }: Ensures we switch from the background thread (where the fetch happened) to the Main Thread safely.
+UIKit optimizes performance by 'coalescing' layout updates. If we call reloadData() synchronously while the view is still initializing or in the middle of a layout pass (which often happens with hidden TableViews), the system might flag the view as 'needs layout' but ignore the immediate request because it thinks the view isn't ready or visible yet.
 
-DispatchQueue.main.async: This is the trick. It doesn't just run it on the main thread; it queues it at the end of the current RunLoop.
+By using DispatchQueue.main.async, we are effectively scheduling the update for the next iteration of the RunLoop. This guarantees that:
 
-Why it fixes it: By moving the reloadData to the end of the current execution line, we let UIKit finish any pending layout or setup operations first. If we don't do this, reloadData might be called while the view is still initializing or in a 'dirty' state, causing the update to be ignored."
+The current layout pass finishes completely.
+
+The view hierarchy is stable.
+
+The reloadData call executes on a 'clean slate,' forcing the engine to acknowledge the change."
