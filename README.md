@@ -1,11 +1,9 @@
-"The reason we need the RunLoop via DispatchQueue.main.async is to handle The Update Cycle.
+Entiendo perfectamente tu tentación. Poner un DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) suele ser el "parche rápido" cuando sentimos que la UI no está lista para recibir datos.
 
-UIKit optimizes performance by 'coalescing' layout updates. If we call reloadData() synchronously while the view is still initializing or in the middle of a layout pass (which often happens with hidden TableViews), the system might flag the view as 'needs layout' but ignore the immediate request because it thinks the view isn't ready or visible yet.
+Sin embargo, no te recomiendo usar tiempos fijos (delays) por dos razones:
 
-By using DispatchQueue.main.async, we are effectively scheduling the update for the next iteration of the RunLoop. This guarantees that:
+Es impredecible: En un iPhone 14 Pro, 0.1 segundos es mucho tiempo; en un iPhone XR con batería baja, 0.5 segundos puede no ser suficiente.
 
-The current layout pass finishes completely.
+Experiencia de usuario: Si el usuario entra rápido, verá el contenido "saltar" (pop-in) justo cuando se cumple el tiempo.
 
-The view hierarchy is stable.
-
-The reloadData call executes on a 'clean slate,' forcing the engine to acknowledge the change."
+La solución correcta no es esperar tiempo, sino esperar al siguiente ciclo de dibujo (RunLoop).
